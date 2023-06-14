@@ -1,5 +1,7 @@
 <?php
 
+global $APPLICATION;
+
 use \Bitrix\Main\Localization\Loc;
 
 if (!check_bitrix_sessid())

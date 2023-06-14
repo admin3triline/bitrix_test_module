@@ -1,5 +1,7 @@
 <?php
 
+global $APPLICATION;
+
 use \Bitrix\Main\Localization\Loc;
 
 if (!check_bitrix_sessid())
@@ -8,11 +10,11 @@ if (!check_bitrix_sessid())
 if ($ex = $APPLICATION->GetException())
     echo CAdminMessage::ShowMessage(array(
         "TYPE" => "ERROR",
-        "MESSAGE" => Loc::getMessage("MOD_UNINST_ERR"),
+        "MESSAGE" => Loc::getMessage("MOD_INST_ERR"),
         "HTML" => true,
     ));
 else
-    echo CAdminMessage::ShowNote(Loc::getMessage("MOD_UNINST_OK"));
+    echo CAdminMessage::ShowNote(Loc::getMessage("MOD_INST_OK"));
 
 ?>
 
