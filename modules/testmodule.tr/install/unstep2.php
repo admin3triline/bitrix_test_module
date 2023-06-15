@@ -7,6 +7,10 @@ use \Bitrix\Main\Localization\Loc;
 if (!check_bitrix_sessid())
     return;
 
+// работа с .settings.php
+$install_count = \Bitrix\Main\Config\Configuration::getInstance()->get('test_module_tr');
+// работа с .settings.php
+
 if ($ex = $APPLICATION->GetException())
     echo CAdminMessage::ShowMessage(array(
         "TYPE" => "ERROR",
@@ -15,6 +19,10 @@ if ($ex = $APPLICATION->GetException())
     ));
 else
     echo CAdminMessage::ShowNote(Loc::getMessage("MOD_UNINST_OK"));
+
+// работа с .settings.php
+echo CAdminMessage::ShowMessage(array("MESSAGE"=>Loc::getMessage("MODULE_UNINSTALL_COUNT").$install_count['uninstall'],"TYPE"=>"OK"));
+// работа с .settings.php
 
 ?>
 
