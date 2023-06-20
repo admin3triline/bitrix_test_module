@@ -8,7 +8,7 @@ use \Bitrix\Main\Entity\Base;
 use \Bitrix\Main\Application;
 
 Loc::loadMessages(__FILE__);
-Class testmodule_tr extends CModule
+Class triline_test extends CModule
 {
     var $exclusionAdminFiles;
 
@@ -25,7 +25,7 @@ Class testmodule_tr extends CModule
             "task_description.php"
         );
 
-        $this->MODULE_ID = "testmodule.tr";
+        $this->MODULE_ID = "triline.test";
         $this->MODULE_VERSION = $arModuleVersion["VERSION"];
         $this->MODULE_VERSION_DATE = $arModuleVersion["VERSION_DATE"];
         $this->MODULE_NAME = "Тестовый модуль Triline";
@@ -64,9 +64,9 @@ Class testmodule_tr extends CModule
 
 //          Работа с .settings.php
             $configuration = Conf\Configuration::getInstance();
-            $test_module_tr = $configuration->get('test_module_tr');
+            $test_module_tr = $configuration->get('triline_test');
             $test_module_tr['install'] = $test_module_tr['install'] + 1;
-            $configuration->add('test_module_tr', $test_module_tr);
+            $configuration->add('triline_test', $test_module_tr);
             $configuration->saveConfiguration();
 //          Работа с .settings.php
         }

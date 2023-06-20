@@ -8,7 +8,7 @@ if (!check_bitrix_sessid())
     return;
 
 // работа с .settings.php
-$install_count = \Bitrix\Main\Config\Configuration::getInstance()->get('test_module_tr');
+$install_count = \Bitrix\Main\Config\Configuration::getInstance()->get('triline.test');
 // работа с .settings.php
 
 if ($ex = $APPLICATION->GetException())

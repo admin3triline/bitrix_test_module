@@ -7,7 +7,7 @@ use \Bitrix\Main\Localization\Loc;
 if (!check_bitrix_sessid())
     return;
 
-$install_count = \Bitrix\Main\Config\Configuration::getInstance()->get('test_module_tr');
+$install_count = \Bitrix\Main\Config\Configuration::getInstance()->get('triline_test');
 
 $cache_type = \Bitrix\Main\Config\Configuration::getInstance()->get('cache');
 
