@@ -1,7 +1,6 @@
 <?php
 
-\Bitrix\Main\Loader::registerAutoLoadClasses('SomeTest',
-    [
-        'Bitrix\Triline\Test\SomeTest' => 'lib/sometest.php'
-    ]
-);
+\Bitrix\Main\Loader::registerAutoLoadClasses('triline.test', array(
+    '\Ttiline\Test\SomeTest' => '/lib/sometest.php',
+    '\Triline\Test\MyComment' => '/lib/mycomment.php',
+));

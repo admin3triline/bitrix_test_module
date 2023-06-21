@@ -28,10 +28,10 @@ Class triline_test extends CModule
         $this->MODULE_ID = "triline.test";
         $this->MODULE_VERSION = $arModuleVersion["VERSION"];
         $this->MODULE_VERSION_DATE = $arModuleVersion["VERSION_DATE"];
-        $this->MODULE_NAME = "Тестовый модуль Triline";
-        $this->MODULE_DESCRIPTION = "Тестовый модуль разграничения прав Triline";
-        $this->PARTNER_NAME = "Admin3";
-        $this->PARTNER_URL = "triline.adm3@gmail.com";
+        $this->MODULE_NAME = Loc::getMessage("TRILINE_TEST_MODULE_NAME");
+        $this->MODULE_DESCRIPTION = Loc::getMessage("TRILINE_TEST_MODULE_DESC");
+        $this->PARTNER_NAME = Loc::getMessage("TRILINE_TEST_PARTNER_NAME");
+        $this->PARTNER_URL = Loc::getMessage("TRILINE_TEST_PARTNER_URI");
 
         $this->SHOW_SUPER_ADMIN_GROUP_RIGHTS = "Y";
         $this->SHOW_GROUP_RIGHTS = "Y";
@@ -72,10 +72,10 @@ Class triline_test extends CModule
         }
         else
         {
-            $APPLICATION->ThrowExeption(Loc::getMessage("MODULE_INSTALL_ERROR_VERSION"));
+            $APPLICATION->ThrowExeption(Loc::getMessage("TRILINE_TEST_INSTALL_ERROR_VERSION"));
         }
 
-        $APPLICATION->IncludeAdminFile(Loc::getMessage("MODULE_INSTALL_TITLE"), $this->GetPath()."/install/step.php");
+        $APPLICATION->IncludeAdminFile(Loc::getMessage("TRILINE_TEST_INSTALL_TITLE"), $this->GetPath()."/install/step.php");
     }
 
     function DoUninstall()
@@ -89,7 +89,7 @@ Class triline_test extends CModule
 
         if ($request["step"] < 2)
         {
-            $APPLICATION->IncludeAdminFile(Loc::getMessage("MODULE_UNINSTALL_TITLE"), $this->GetPath()."/install/unstep1.php");
+            $APPLICATION->IncludeAdminFile(Loc::getMessage("TRILINE_TEST_UNINSTALL_TITLE"), $this->GetPath()."/install/unstep1.php");
         }
         elseif ($request["step"] == 2)
         {
@@ -111,7 +111,7 @@ Class triline_test extends CModule
             $configuration->saveConfiguration();
 //          Работа с .settings.php
 
-            $APPLICATION->IncludeAdminFile(Loc::getMessage("MODULE_UNINSTALL_TITLE"), $this->GetPath()."/install/unstep2.php");
+            $APPLICATION->IncludeAdminFile(Loc::getMessage("TRILINE_TEST_UNINSTALL_TITLE"), $this->GetPath()."/install/unstep2.php");
         }
     }
 
@@ -126,12 +126,12 @@ Class triline_test extends CModule
     }
     function InstallEvents()
     {
-        \Bitrix\Main\EventManager::getInstance()->registerEventHandler($this->MODULE_ID, 'TestEventTr', $this->MODULE_ID, '\Academy\D7\Event', 'eventHandler');
+        \Bitrix\Main\EventManager::getInstance()->registerEventHandler($this->MODULE_ID, 'TestEventTr', $this->MODULE_ID, '\Triline\Test\Event', 'eventHandler');
     }
 
     function UnInstallEvents()
     {
-        \Bitrix\Main\EventManager::getInstance()->unRegisterEventHandler($this->MODULE_ID, 'TestEventTr', $this->MODULE_ID, '\Academy\D7\Event', 'eventHandler');
+        \Bitrix\Main\EventManager::getInstance()->unRegisterEventHandler($this->MODULE_ID, 'TestEventTr', $this->MODULE_ID, '\Triline\Test\Event', 'eventHandler');
     }
 
     function InstallFiles()
@@ -159,7 +159,7 @@ Class triline_test extends CModule
 
     function UnInstallFiles()
     {
-        \Bitrix\Main\IO\Directory::deleteDirectory($_SERVER["DOCUMENT_ROOT"] . '/bitrix/components/academy/');
+        \Bitrix\Main\IO\Directory::deleteDirectory($_SERVER["DOCUMENT_ROOT"] . '/bitrix/components/triline/');
 
         if (\Bitrix\Main\IO\Directory::isDirectoryExists($path = $this->GetPath(). '/admin')) {
             DeleteDirFiles($_SERVER["DOCUMENT_ROOT"] . $this->GetPath() . '/install/admin/', $_SERVER["DOCUMENT_ROOT"] . '/bitrix/admin');

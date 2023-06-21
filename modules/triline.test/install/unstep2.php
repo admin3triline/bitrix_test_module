@@ -21,7 +21,7 @@ else
     echo CAdminMessage::ShowNote(Loc::getMessage("MOD_UNINST_OK"));
 
 // работа с .settings.php
-echo CAdminMessage::ShowMessage(array("MESSAGE"=>Loc::getMessage("MODULE_UNINSTALL_COUNT").$install_count['uninstall'],"TYPE"=>"OK"));
+echo CAdminMessage::ShowMessage(array("MESSAGE"=>Loc::getMessage("TRILINE_TEST_UNINSTALL_COUNT").$install_count['uninstall'],"TYPE"=>"OK"));
 // работа с .settings.php
 
 ?>

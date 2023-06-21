@@ -20,10 +20,10 @@ if ($ex = $APPLICATION->GetException())
 else
     echo CAdminMessage::ShowNote(Loc::getMessage("MOD_INST_OK"));
 
-echo CAdminMessage::ShowMessage(array('MESSAGE'=>Loc::getMessage("MODULE_INSTALL_COUNT").$install_count['install'], "TYPE"=>"OK"));
+echo CAdminMessage::ShowMessage(array('MESSAGE'=>Loc::getMessage("TRILINE_TEST_INSTALL_COUNT").$install_count['install'], "TYPE"=>"OK"));
 
 if (!$cache_type['type'] || $cache_type['type'] == 'none')
-    echo CAdminMessage::ShowMessage(array("MESSAGE"=>Loc::getMessage("MODULE_NO_CACHE"), "TYPE"=>"ERROR"));
+    echo CAdminMessage::ShowMessage(array("MESSAGE"=>Loc::getMessage("TRILINE_TEST_NO_CACHE"), "TYPE"=>"ERROR"));
 ?>
 
 <form action="<?echo $APPLICATION->GetCurPage(); ?>">
