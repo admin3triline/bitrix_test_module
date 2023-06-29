@@ -30,6 +30,7 @@ Class triline_test extends CModule
         $this->MODULE_VERSION_DATE = $arModuleVersion["VERSION_DATE"];
         $this->MODULE_NAME = Loc::getMessage("TRILINE_TEST_MODULE_NAME");
         $this->MODULE_DESCRIPTION = Loc::getMessage("TRILINE_TEST_MODULE_DESC");
+
         $this->PARTNER_NAME = Loc::getMessage("TRILINE_TEST_PARTNER_NAME");
         $this->PARTNER_URL = Loc::getMessage("TRILINE_TEST_PARTNER_URI");
 
@@ -51,6 +52,65 @@ Class triline_test extends CModule
            return CheckVersion(\Bitrix\Main\ModuleManager::getVersion('main'), '14.00.00');
     }
 
+    function InstallDB()
+    {
+        return true;
+    }
+
+    function UnInstallDB()
+    {
+        return true;
+    }
+    function InstallEvents()
+    {
+        \Bitrix\Main\EventManager::getInstance()->registerEventHandler($this->MODULE_ID, 'TestEventTr', $this->MODULE_ID, '\Triline\Test\Event', 'eventHandler');
+    }
+
+    function UnInstallEvents()
+    {
+        \Bitrix\Main\EventManager::getInstance()->unRegisterEventHandler($this->MODULE_ID, 'TestEventTr', $this->MODULE_ID, '\Triline\Test\Event', 'eventHandler');
+    }
+
+    function InstallFiles()
+    {
+        CopyDirFiles($this->GetPath()."/install/components", $_SERVER["DOCUMENT_ROOT"]."/bitrix/components", true, true);
+
+        if (\Bitrix\Main\IO\Directory::isDirectoryExists($path = $this->getPath() . "/admin"))
+        {
+            CopyDirFiles($this->GetPath() . "/install/admin/", $_SERVER["DOCUMENT_ROOT"] . "/bitrix/admin");
+            if ($dir = opendir($path))
+            {
+                while (false !== $item = readdir($dir))
+                {
+                    if (in_array($item, $this->exclusionAdminFiles))
+                        continue;
+                    file_put_contents($_SERVER["DOCUMENT_ROOT"]."/bitrix/admin/".$this->MODULE_ID."_".$item,
+                        "<".'? require($_SERVER["DOCUMENT_ROOT"]."'.$this->GetPath(true).'/admin/'.$item.'");?'.'>');
+                }
+                closedir($dir);
+            }
+        }
+
+        return true;
+    }
+
+    function UnInstallFiles()
+    {
+        \Bitrix\Main\IO\Directory::deleteDirectory($_SERVER["DOCUMENT_ROOT"] . '/bitrix/components/triline/');
+
+        if (\Bitrix\Main\IO\Directory::isDirectoryExists($path = $this->GetPath(). '/admin')) {
+            DeleteDirFiles($_SERVER["DOCUMENT_ROOT"] . $this->GetPath() . '/install/admin/', $_SERVER["DOCUMENT_ROOT"] . '/bitrix/admin');
+            if ($dir = opendir($path)) {
+                while (false !== $item = readdir($dir)) {
+                    if (in_array($item, $this->exclusionAdminFiles))
+                        continue;
+                    \Bitrix\Main\IO\File::deleteFile($_SERVER['DOCUMENT_ROOT'] . '/bitrix/admin/' . $this->MODULE_ID . '_' . $item);
+                }
+                closedir($dir);
+            }
+        }
+        return true;
+    }
     function DoInstall()
     {
         global $APPLICATION;
@@ -115,64 +175,18 @@ Class triline_test extends CModule
         }
     }
 
-    function InstallDB()
+
+    function GetModuleRightList()
     {
-        return true;
-    }
-
-    function UnInstallDB()
-    {
-        return true;
-    }
-    function InstallEvents()
-    {
-        \Bitrix\Main\EventManager::getInstance()->registerEventHandler($this->MODULE_ID, 'TestEventTr', $this->MODULE_ID, '\Triline\Test\Event', 'eventHandler');
-    }
-
-    function UnInstallEvents()
-    {
-        \Bitrix\Main\EventManager::getInstance()->unRegisterEventHandler($this->MODULE_ID, 'TestEventTr', $this->MODULE_ID, '\Triline\Test\Event', 'eventHandler');
-    }
-
-    function InstallFiles()
-    {
-        CopyDirFiles($this->GetPath()."/install/components", $_SERVER["DOCUMENT_ROOT"]."/bitrix/components", true, true);
-
-        if (\Bitrix\Main\IO\Directory::isDirectoryExists($path = $this->getPath() . "/admin"))
-        {
-            CopyDirFiles($this->GetPath() . "/install/admin/", $_SERVER["DOCUMENT_ROOT"] . "/bitrix/admin");
-            if ($dir = opendir($path))
-            {
-                while (false !== $item = readdir($dir))
-                {
-                    if (in_array($item, $this->exclusionAdminFiles))
-                        continue;
-                    file_put_contents($_SERVER["DOCUMENT_ROOT"]."/bitrix/admin/".$this->MODULE_ID."_".$item,
-                        "<".'? require($_SERVER["DOCUMENT_ROOT"]."'.$this->GetPath(true).'/admin/'.$item.'");?'.'>');
-                }
-                closedir($dir);
-            }
-        }
-
-        return true;
-    }
-
-    function UnInstallFiles()
-    {
-        \Bitrix\Main\IO\Directory::deleteDirectory($_SERVER["DOCUMENT_ROOT"] . '/bitrix/components/triline/');
-
-        if (\Bitrix\Main\IO\Directory::isDirectoryExists($path = $this->GetPath(). '/admin')) {
-            DeleteDirFiles($_SERVER["DOCUMENT_ROOT"] . $this->GetPath() . '/install/admin/', $_SERVER["DOCUMENT_ROOT"] . '/bitrix/admin');
-            if ($dir = opendir($path)) {
-                while (false !== $item = readdir($dir)) {
-                    if (in_array($item, $this->exclusionAdminFiles))
-                        continue;
-                    \Bitrix\Main\IO\File::deleteFile($_SERVER['DOCUMENT_ROOT'] . '/bitrix/admin/' . $this->MODULE_ID . '_' . $item);
-                }
-                closedir($dir);
-            }
-        }
-        return true;
+        return array(
+            'reference_id' => array("D","K","S","W"),
+            'reference' => array(
+                "[D] ".Loc::getMessage("TRILINE_TEST_DENIED"),
+                "[K] ".Loc::getMessage("TRILINE_TEST_READ_COMPONENT"),
+                "[S] ".Loc::getMessage("TRILINE_TEST_WRITE_SETTINGS"),
+                "[W] ".Loc::getMessage("TRILINE_TEST_FULL")
+            )
+        );
     }
 
 }

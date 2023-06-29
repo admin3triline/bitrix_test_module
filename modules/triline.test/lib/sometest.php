@@ -2,24 +2,29 @@
 
 namespace Triline\Test;
 
+use Bitrix\Crm\Timeline\TimelineType;
+use CBitrixComponent;
 use CUser;
-
+use Bitrix\Main\Loader;
+use Bitrix\Crm\Timeline\Entity\TimelineTable;
+use Bitrix\Crm;
 
 class SomeTest {
 
     public function doAny ()
     {
-        global $USER;
+        global $APPLICATION;
 
-        $user_ID_now = $USER->GetID();
-        $user_group_ar = CUser::GetUserGroup($user_ID_now);
+        $arr = $APPLICATION->IncludeComponent(
+            'bitrix:crm.timeline',
+            '',
+            array(
+                'ENTITY_TYPE_ID' => 1,
+                'ENTITY_ID' => 11,
+                'ENTRY_CATEGORY_ID' => Crm\Filter\TimelineEntryCategory::COMMENT,
+            ),
+        );
 
-        print_r($user_group_ar);
-
-        echo '<pre>';
-        echo 'Принадлежит группе "Сотрудники" '.in_array(12, $USER->GetUserGroupArray());
-        echo '<pre>';
-
-        return true;
+        echo $arr;
     }
 }
