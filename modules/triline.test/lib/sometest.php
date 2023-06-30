@@ -9,7 +9,10 @@ use Bitrix\Main\Loader;
 use Bitrix\Crm\Timeline\Entity\TimelineTable;
 use Bitrix\Crm;
 
-class SomeTest {
+class SomeTest extends CBitrixComponent{
+
+    /** @var int */
+    protected $entityID = 0;
 
     public function doAny ()
     {
